@@ -47,13 +47,37 @@ def result(number):
 def destress():
     return render_template('destress.html')
 
-@app.route('/destress/animation')
-def destress_animation():
-    return render_template('animation.html')
+@app.route('/destress/video1')
+def destress_video1():
+    return render_template('video1.html')
 
-@app.route('/destress/video')
-def destress_video():
-    return render_template('video.html')
+@app.route('/destress/video2')
+def destress_video2():
+    return render_template('video2.html')
+
+@app.route('/destress/video3')
+def destress_video3():
+    return render_template('video3.html')
+
+@app.route('/destress/video4')
+def destress_video4():
+    return render_template('video4.html')
+
+@app.route('/destress/video5')
+def destress_video5():
+    return render_template('video5.html')
+
+@app.route('/destress/video6')
+def destress_video6():
+    return render_template('video6.html')
+
+@app.route('/destress/video7')
+def destress_video7():
+    return render_template('video7.html')
+
+@app.route('/destress/video8')
+def destress_video8():
+    return render_template('video8.html')
 
 @app.route('/evals')
 def evals():
@@ -71,3 +95,4 @@ def index():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
