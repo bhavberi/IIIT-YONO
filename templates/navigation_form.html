@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vindhya Navigator</title>
+
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        /* Style the tab */
+        .tab {
+            padding-left: 30%;
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 25px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #C0C0C0;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #C0C0C0;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        select,
+        input {
+            font-size: 25px;
+        }
+    </style>
+    <script>
+        function openTab(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        var roomObject = {
+            "A2": [],
+            "A3": ["201", "202", "203", "204", "205", "206", "207", "208", "209", "210", "211", "212", "213", "214", "215", "216", "217", "218", "219", "220", "221", "301", "302", "303", "304", "305", "306", "307", "308", "309", "310", "311", "312", "313", "314", "315", "316", "317"],
+            "A5": ["301", "302", "303", "304", "305", "306", "307", "308", "309", "310", "311", "312", "313", "314", "315", "316", "317", "318", "319", "320", "321"],
+            "A6": ["301", "302", "303", "304"],
+            "A7": ["101", "301", "302", "303", "304"],
+            "B2": ["201", "202", "203", "204", "205", "206", "207", "301", "302", "303", "304", "305", "306", "307", "308", "309", "310", "311", "312", "313", "314", "315", "316"],
+            "B3": ["201", "202", "203", "204", "205", "206", "207", "208", "209", "301", "302", "303", "304", "305", "306", "307", "308", "309", "310", "311"],
+            "B4": ["201", "202", "203", "204", "205", "301", "302", "303", "304"],
+            "B5": ["201", "202", "203", "204", "205", "206", "207", "301", "302", "303", "304", "305", "306", "307", "308", "309", "310"],
+            "B6": ["101", "102", "201", "203", "301", "302", "303", "304", "305", "306", "307", "308", "309", "310", "311", "312"],
+            "C1": ["201"],
+            "C6": ["301"],
+            "C7": ["101", "301"]
+        }
+        var floorObject = {
+            "A2": ["2", "3"],
+            "A3": ["2", "3"],
+            "A5": ["1", "3"],
+            "A6": ["1", "3"],
+            "A7": ["1", "3"],
+            "B2": ["2", "3"],
+            "B3": ["2", "3"],
+            "B4": ["2", "3"],
+            "B5": ["2", "3"],
+            "B6": ["1", "2", "3"],
+            "C1": ["2"],
+            "C6": ["3"],
+            "C7": ["2", "3"]
+        }
+        window.onload = function () {
+            var block1 = document.getElementById("block1");
+            var block2 = document.getElementById("block2");
+            var floor = document.getElementById("floor");
+            var room = document.getElementById("room");
+            for (var x in roomObject) {
+                block1.options[block1.options.length] = new Option(x, x);
+            }
+            for (var x in floorObject) {
+                block2.options[block2.options.length] = new Option(x, x);
+            }
+
+            block1.onchange = function () {
+                room.length = 1;
+                //display correct values
+                for (var y in roomObject[this.value]) {
+                    room.options[room.options.length] = new Option(roomObject[this.value][y], roomObject[this.value][y]);
+                }
+            }
+            block2.onchange = function () {
+                floor.length = 1;
+                //display correct values
+                for (var y in floorObject[this.value]) {
+                    floor.options[floor.options.length] = new Option(floorObject[this.value][y], floorObject[this.value][y]);
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    style="background-image: url(/static/main_background.jpg); background-repeat: no-repeat; background-size: 100% 100%;">
+    <h1 style="color: black; text-align: center; font-size: 100px;">Vindhya Navigator</h1>
+    <p style="color: black; text-align: center; font-size: xx-large;"><b>Tired of navigating the mazes of Vindhya using
+            your gut feeling? Try our navigator and get to your destination quick and easy. <br><br>
+            Just enter the type of your destination and we will guide you to glory, ahem... your destination
+        </b></p>
+    <br><br><br>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Location')">Specific Location</button>
+        <button class="tablinks" onclick="openTab(event, 'Room_Number')">Room Number</button>
+        <button class="tablinks" onclick="openTab(event, 'Block')">Block & Floor</button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="Room_Number" class="tabcontent">
+        <form action="{{ url_for('navigate_form') }}" method="POST">
+            <select name="block" id="block1" required>
+                <option value="" selected="selected">Please Select Block</option>
+            </select>
+            <select name="room" id="room" required>
+                <option value="" selected="selected">Please Select Room Number</option>
+            </select>
+            <input name="floor" type="hidden" />
+            <input name="special" type="hidden" />
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+
+    <div id="Block" class="tabcontent">
+        <form action="{{ url_for('navigate_form') }}" method="POST">
+            <select name="block" id="block2" required>
+                <option value="" selected="selected">Please Select Block</option>
+            </select>
+            <select name="floor" id="floor" required>
+                <option value="" selected="selected">Please Select Floor</option>
+            </select>
+            <input name="room" type="hidden" />
+            <input name="special" type="hidden" />
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+
+    <div id="Location" class="tabcontent">
+        <form action="{{ url_for('navigate_form') }}" method="POST">
+            <select name="special" required>
+                <option value="" selected="selected">Please Select the Location</option>
+                <option value="Lib">Library</option>
+                <option value="WS1">WorkSpace 1 Ground Floor(No Conference Room)</option>
+                <option value="WS2">WorkSpace 2 Ground Floor</option>
+                <option value="WS3">WorkSpace 3 Ground Floor</option>
+                <option value="WS4">WorkSpace First Floor</option>
+                <option value="SShop">Stationary & Xerox</option>
+                <option value="RSpace">Reading Space</option>
+                <option value="SH1">Seminar Hall 1</option>
+                <option value="SH2">Seminar Hall 2</option>
+                <option value="TL1">Teaching Lab 1</option>
+                <option value="TL2">Teaching Lab 2</option>
+                <option value="TL3">Teaching Lab 3</option>
+                <option value="SBI">SBI Bank & ATM</option>
+                <option value="CompFac">Computing Facility</option>
+                <option value="SciLab">Science Lab</option>
+                <option value="CCNSB">CCNSB(Center for Computational Natural Sciences and Bioinformatics) </option>
+                <option value="CVEST">CVEST(Center for VLSI and Embedded Systems Technologies)</option>
+                <option value="CSG">CSG(Computer Systems Group)</option>
+                <option value="RRC">RRC(Robotics Research Center)</option>
+                <option value="IT">Information Technology Labs(Combined)</option>
+                <option value="SpcInfo">Lab for Spacial Informatics</option>
+                <option value="ERC">Electronics Club Room</option>
+            </select>
+            <input name="block" type="hidden" />
+            <input name="floor" type="hidden" />
+            <input name="room" type="hidden" />
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+
+</body>
+
+</html>
